@@ -174,3 +174,61 @@ Production containers should not have shells.
 
 ---
 
+## Deploy to DockerHub
+
+1. Create a new repository in DockerHub. 
+2. Create personal access token on DockerHub for jenkins to login.
+
+Both called **grpc-user-service**
+
+3. Add DockerHub Credentials
+```text
+In Jenkins:
+
+Manage Jenkins → Credentials → Add Credentials
+
+Type: Username/Password
+
+ID: dockerhub-creds-k8
+
+Username: your DockerHub username
+
+Password: DockerHub access token (not your password)
+```
+
+Username will be fahadkhan2105 as this is DockerHub username. 
+
+4. Write Jenkins pipeline and run it.
+
+---
+
+## Deploy image to kind cluster
+
+* Deployment
+* Resource limits
+* Liveness probe
+* Readiness probe
+* Service (ClusterIP)
+* Then test gRPC inside cluster
+
+### 🧱 Step 1 — Create k8s Folder
+
+In your repo:
+
+```Code
+grpc-user-service/
+ ├── k8s/
+ │    ├── deployment.yaml
+ │    └── service.yaml
+```
+
+``` Bash
+mkdir k8s
+```
+cd into k8s directory.
+``` Bash
+touch deployment.yaml
+touch service.yaml
+```
+
+
