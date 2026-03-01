@@ -45,7 +45,7 @@ COPY . .
 
 RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o app ./server
 
-FROM alpine:3.23
+FROM gcr.io/distroless/base-debian12
 
 WORKDIR /app
 COPY --from=builder /app/app .
