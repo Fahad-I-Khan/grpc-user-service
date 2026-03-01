@@ -229,3 +229,81 @@ If you want, next I can explain what actually happens at the HTTP/2 frame level 
 ————————————————————————————————————————
 ————————————————————————————————————————
 
+1️⃣ Push image to DockerHub (or ECR)
+2️⃣ Create Kubernetes Deployment YAML
+3️⃣ Add:
+
+readiness probe
+
+liveness probe
+
+resource limits
+4️⃣ Deploy to kind
+5️⃣ Expose via ClusterIP
+6️⃣ Test via grpcurl from inside cluster
+
+🎯 So What We Do Now
+
+Next clean path:
+
+Step 1
+
+Push image to DockerHub
+
+Step 2
+
+Create Kubernetes Deployment YAML
+
+Step 3
+
+Deploy to your local kind cluster
+
+Step 4
+
+Create Service (ClusterIP)
+
+Step 5
+
+Test gRPC inside cluster
+
+Step 6
+
+Add Ingress (gRPC compatible)
+
+Step 7
+
+Move to AWS EKS
+
+Create cluster
+
+Push to ECR
+
+Deploy
+
+Add AWS LoadBalancer
+
+**🏗 Bigger Picture**
+
+```Code
+gRPC service
+   ↓
+Docker (distroless)
+   ↓
+Kubernetes Deployment
+   ↓
+Service
+   ↓
+Ingress / LoadBalancer
+   ↓
+AWS EKS
+   ↓
+Autoscaling
+   ↓
+Production-ready microservice
+```
+
+——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+————————————————————————————————————————
+————————————————————————————————————————
+————————————————————————————————————————
+————————————————————————————————————————
