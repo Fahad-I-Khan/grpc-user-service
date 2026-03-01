@@ -231,4 +231,29 @@ touch deployment.yaml
 touch service.yaml
 ```
 
+After writting yaml.
+
+### We need to start kind cluster
+
+CMD's
+
+``` Bash
+kubectl create cluster --name <name>
+```
+
+``` Bash
+kubectl create cluster --name dev-cluster
+```
+
+Then check
+
+``` Bash
+kubectl cluster-info
+```
+
+``` Bash
+kubectl get nodes
+```
+
+
 
