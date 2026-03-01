@@ -140,3 +140,37 @@ Without reflection, you’d need to manually pass the `.proto` file to grpcurl.
 
 ---
 
+## Tag & Run Docker Image
+
+After adding distroless image
+
+``` Bash
+docker build -t grpc-user-service:1.0 .
+```
+
+``` Bash
+docker images | grep grpc-user-service
+```
+
+``` Bash
+docker run -p 50051:50051 grpc-user-service:1.0
+```
+
+``` Bash
+grpcurl -plaintext localhost:50051 list
+```
+
+**Important Debug Note**
+
+Distroless has no shell.
+
+So this WON’T work:
+
+``` Bash
+docker exec -it container sh
+```
+
+Production containers should not have shells.
+
+---
+
