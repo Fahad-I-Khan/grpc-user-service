@@ -255,5 +255,112 @@ kubectl cluster-info
 kubectl get nodes
 ```
 
+This should show like:
 
+```
+NAME                        STATUS   ROLES           AGE   VERSION
+dev-cluster-control-plane   Ready    control-plane   38s   v1.35.0
+```
 
+``` Bash
+docker ps -a
+```
+This should also show docker container running with name: **dev-cluster-control-plane**
+
+### Apply k8s
+
+First check Nodes, Clusters are present if not create. 
+
+``` Bash
+ kubectl get nodes
+```
+
+``` Bash
+kind get clusters
+```
+
+``` Bash
+kubectl apply -f k8s/
+```
+
+Then Check pods, svc
+
+``` Bash
+kubectl get pods
+```
+
+``` Bash
+kubectl get svc
+```
+
+Port-Forward
+
+``` Bash
+kubectl port-forward svc/grpc-user 50051:50051
+```
+
+Now add Ingress to Kind
+
+``` Bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+```
+Wait until pods are ready:
+``` Bash
+kubectl get pods -n ingress-nginx
+```
+
+You should see something like:
+```
+ingress-nginx-controller   Running
+```
+
+---
+
+Add Ingress yaml
+
+Then apply:
+``` Bash
+kubectl apply -f k8s/ingress.yaml
+```
+
+### Add Local DNS
+
+Edit hosts file:
+
+Mac:
+
+``` bash
+sudo nano /etc/hosts
+```
+
+Add:
+
+```
+127.0.0.1 grpc.local
+```
+
+### Test gRPC via Ingress
+
+Now instead of:
+
+``` Bash
+localhost:50051
+```
+
+You use:
+
+``` Bash
+grpc.local
+```
+
+Now we will port-forward
+
+``` Bash
+kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80
+```
+
+Now test:
+
+``` Bash
+grpcurl -plaintext grpc.local:8080 list
+```
