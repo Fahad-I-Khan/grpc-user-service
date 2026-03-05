@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-user
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: grpc-user
+  template:
+    metadata:
+      labels:
+        app: grpc-user
+    spec:
+      containers:
+      - name: grpc-user
+        image: fahadkhan2105/grpc-user-service:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 50051
+
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
+
+        livenessProbe:
+          tcpSocket:
+            port: 50051
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        readinessProbe:
+          tcpSocket:
+            port: 50051
+          initialDelaySeconds: 5
+          periodSeconds: 5
