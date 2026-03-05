@@ -398,3 +398,50 @@ wget grpc-user:50051
 ```
 ----
 
+## How to check Ingress
+
+``` Bash
+kubectl get ingress
+```
+
+``` Bash
+kubectl describe ingress grpc-user-ingress
+```
+
+``` Bash
+kubectl get ingress grpc-user-ingress -o yaml
+```
+
+``` Bash
+kubectl get pods -A | grep ingress
+```
+
+``` Bash
+kubectl get svc -A | grep ingress
+```
+
+``` Bash
+kubectl get svc -A
+```
+
+``` Bash
+kubectl get pods -A
+```
+
+``` Bash
+grpcurl -plaintext grpc.local:8080 list
+```
+
+```
+                grpc.local
+                    │
+                    ▼
+        NGINX Ingress Controller
+                    │
+                    ▼
+            grpc-user Service
+                    │
+        ┌───────────┼───────────┐
+        ▼           ▼           ▼
+     Pod 1       Pod 2       Pod 3
+```
