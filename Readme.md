@@ -364,3 +364,37 @@ Now test:
 ``` Bash
 grpcurl -plaintext grpc.local:8080 list
 ```
+
+## Shell-based debug container
+
+Since our pod don't have sh we can't sh into them. 
+
+This won't work:
+
+``` Bash
+ kubectl exec -it grpc-user-59d55cc89f-484qw -- sh
+```
+
+```
+error: Internal error occurred: Internal error occurred: error executing command in container: failed to exec in container: failed to start exec "2867aa18fff8993df8d2891918a91fcabf4ac5460e96f69244bf950d163eece3": OCI runtime exec failed: exec failed: unable to start container process: exec: "sh": executable file not found in $PATH
+```
+
+So we will create one. 
+
+``` Bash
+kubectl run net-debug \
+  --rm -it \
+  --restart=Never \
+  --image=busybox \
+  -- sh
+```
+
+``` Bash
+nslookup grpc-user
+```
+
+``` Bash
+wget grpc-user:50051
+```
+----
+
